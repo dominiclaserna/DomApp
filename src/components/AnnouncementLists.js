@@ -13,34 +13,32 @@ const AnnouncementsList = () => {
     }, []);
 
     const fetchAnnouncements = async () => {
-    try {
-        const apiUrl = process.env.REACT_APP_API_BASE_URL; // Use environment variable for the API base URL
-        const response = await fetch(`${apiUrl}/announcements`);
-        if (response.ok) {
-            const data = await response.json();
-            setAnnouncements(data);
-        } else {
-            console.error('Failed to fetch announcements');
+        try {
+            const response = await fetch('/announcements');
+            if (response.ok) {
+                const data = await response.json();
+                setAnnouncements(data);
+            } else {
+                console.error('Failed to fetch announcements');
+            }
+        } catch (error) {
+            console.error('Server error:', error);
         }
-    } catch (error) {
-        console.error('Server error:', error);
-    }
-};
+    };
 
-const fetchUserType = async () => {
-    try {
-        const apiUrl = process.env.REACT_APP_API_BASE_URL; // Use environment variable for the API base URL
-        const response = await fetch(`${apiUrl}/user-details/${encodeURIComponent(loggedInUserEmail)}`);
-        if (response.ok) {
-            const userData = await response.json();
-            setUserType(userData.userType);
-        } else {
-            console.error('Failed to fetch user type');
+    const fetchUserType = async () => {
+        try {
+            const response = await fetch(`/user-details/${encodeURIComponent(loggedInUserEmail)}`);
+            if (response.ok) {
+                const userData = await response.json();
+                setUserType(userData.userType);
+            } else {
+                console.error('Failed to fetch user type');
+            }
+        } catch (error) {
+            console.error('Error fetching user type:', error);
         }
-    } catch (error) {
-        console.error('Error fetching user type:', error);
-    }
-};
+    };
 
     // Define a function to handle announcement submission
     const handleAnnouncementSubmit = async (announcementData) => {
