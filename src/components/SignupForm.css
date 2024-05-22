@@ -1,0 +1,47 @@
+body {
+    background-image: url('bg4.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+
+.signup-form {
+    max-width: 300px;
+    margin: 0 auto;
+    padding: 24px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-image: url('bg3.jpg'); /* Background image */
+    background-size: cover; /* Cover the entire form with the background image */
+}
+
+.signup-form input,
+.signup-form select,
+.signup-form button {
+    display: block;
+    width: calc(100% - 20px); /* Adjusted width to accommodate margins */
+    margin: 0 auto 20px auto; /* Even margin for top, bottom, and auto margin for left and right */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8); /* Background color for form elements */
+}
+
+.signup-form button {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.signup-form button:hover {
+    background-color: #0056b3;
+}

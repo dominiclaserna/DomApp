@@ -1,0 +1,34 @@
+/* AnnouncementLists.css */
+
+.announcements-list-container {
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .announcement {
+    border: 1px solid #64066d;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    background-color: #64066d;
+  }
+  
+  .announcement-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-align:center;
+  }
+  
+  .announcement-message {
+    margin-bottom: 0.5rem;
+  }
+  
+  .announcement-details {
+    color: #ccc;
+    font-size: 0.9rem;
+  }
+  
+  .announcement-right {
+    text-align: right;
+  }
+  

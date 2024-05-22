@@ -1,0 +1,54 @@
+.message-list-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);  /* Adjust the height based on your layout */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.message-list-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px; /* Add padding to create space between messages and form */
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 10px;
+}
+
+.message {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+
+.message-left {
+  background-color: #64066d;
+  color: white;
+  text-align: left;
+}
+
+.message-right {
+  background-color: #64066d;
+  color: white;
+  text-align: right;
+  align-self: flex-end;
+}
+
+.message-form-container {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+  margin-top: 10px; /* Adjust margin to bring the form closer to the messages */
+}
+
+.login-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  text-align: center;
+}

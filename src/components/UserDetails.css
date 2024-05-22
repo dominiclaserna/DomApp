@@ -1,0 +1,40 @@
+.user-details-container {
+    background-image: url('bg2.jpg'); /* Background image */
+    background-size: cover;
+    padding: 40px 20px; /* Adjusted padding */
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.user-details-background {
+    padding: 20px; /* Adjusted padding */
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.user-details-table {
+    width: 100%;
+    margin-bottom: 20px; /* Added margin bottom */
+    border-collapse: collapse; /* Ensure borders collapse */
+    font-size: 28px; /* Adjusted font size */
+}
+
+.user-details-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd; /* Lighter border */
+}
+
+.user-details-table td:first-child {
+    font-weight: bold;
+    width: 30%;
+    font-size: 20px; /* Adjusted font size for labels */
+}
+
+.error-message {
+    color: red;
+    font-size: 16px; /* Adjusted font size for error messages */
+}
+
+p {
+    font-size: 16px; /* Adjusted font size for loading and other paragraphs */
+}

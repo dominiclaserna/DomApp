@@ -1,0 +1,38 @@
+.announcements-form-container {
+    max-width: 400px; /* Increased max-width for better spacing */
+    margin: 20px auto; /* Added margin for centering and spacing */
+    padding: 24px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Lighter background color */
+    color:black;
+}
+
+.announcements-form input,
+.announcements-form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff; /* White background for input fields */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+.announcements-form button {
+    display: inline-block; /* Changed display to inline-block for button */
+    width: auto; /* Adjusted width */
+    padding: 10px 20px; /* Increased padding for better appearance */
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Added transition effect */
+}
+
+.announcements-form button:hover {
+    background-color: #0056b3;
+}
