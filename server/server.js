@@ -3,6 +3,7 @@ require('dotenv').config();  // Load environment variables from .env file
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 // Create Express app
 const app = express();
@@ -10,12 +11,17 @@ const app = express();
 // Middleware
 app.use(bodyParser.json());
 
+// Enable CORS for all routes
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Update with your frontend URL
+  optionsSuccessStatus: 200
+}));
+
 // Connect to MongoDB
-const MONGODB_URI="mongodb+srv://luisdominiclaserna:bGKxeCZ2ghpi8BZ4@cluster0.tuqvzxf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const MONGODB_URI1="mongodb://localhost:27017"
+const MONGODB_URI = process.env.MONGODB_URI || 'your_default_mongodb_uri';
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected successfully'))
-    .catch(err => console.error('MongoDB connection error:', err));
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 // Define user routes
 const userController = require('./controllers/userController');
@@ -24,13 +30,11 @@ app.post('/signup', userController.signup);
 // Define create bill route
 const billController = require('./controllers/billController');
 app.post('/create-bill', billController.createBill);
-
-// Define route to update bill paid status
 app.patch('/bills/:billId', billController.updateBillPaidStatus);
 
 // Define bill routes
-const billRoutes = require('./routes/billRoutes'); // Import billRoutes
-app.use('/bills', billRoutes); // Mount billRoutes at /bills path
+const billRoutes = require('./routes/billRoutes');
+app.use('/bills', billRoutes);
 
 // Define login route
 const authController = require('./controllers/authController');
@@ -44,15 +48,16 @@ app.use('/user-details', userDetailsRoutes);
 const messageRoutes = require('./routes/messageRoutes');
 app.use('/messages', messageRoutes);
 
-const announcementRoutes = require('./routes/announcementRoutes'); // Import announcementRoutes
-app.use('/announcements', announcementRoutes); // Mount announcementRoutes at /announcements path
+// Define announcement routes
+const announcementRoutes = require('./routes/announcementRoutes');
+app.use('/announcements', announcementRoutes);
 
 // Define notification routes
 const notificationRoutes = require('./routes/notificationRoutes');
-app.use('/notifications', notificationRoutes); // Mount notificationRoutes at /notifications path
+app.use('/notifications', notificationRoutes);
 
 // Start the server
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
