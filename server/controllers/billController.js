@@ -49,8 +49,6 @@ exports.createAnnouncement = async (req, res) => {
   }
 };
 
-// Controller function to get all bills
-const Bill = require('../models/Bill');
 
 exports.getAllBills = async (req, res) => {
   try {
