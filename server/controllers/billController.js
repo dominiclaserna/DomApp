@@ -49,6 +49,16 @@ exports.createAnnouncement = async (req, res) => {
   }
 };
 
+// Controller function to get all bills
+exports.getAllBills = async (req, res) => {
+    try {
+        const bills = await Bill.find();
+        res.json(bills);
+    } catch (error) {
+        console.error('Error fetching bills:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 exports.getBillsForUser = async (req, res) => {
     try {
@@ -61,6 +71,7 @@ exports.getBillsForUser = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch bills' });
     }
 };
+
 exports.updateBillPaidStatus = async (req, res) => {
     const { billId } = req.params;
     const { paid, paymentRefNumber } = req.body; // Ensure paymentRefNumber is correctly extracted from the request body
