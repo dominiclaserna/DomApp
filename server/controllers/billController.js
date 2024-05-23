@@ -50,16 +50,17 @@ exports.createAnnouncement = async (req, res) => {
 };
 
 
-exports.getAllBills = async (req, res) => {
+exports.getBillsForUser = async (req, res) => {
     try {
-      const userEmail = req.params.userEmail; // Extract userEmail from request parameters
-      const bills = await Bill.find({ $or: [{ receiver: userEmail }, { biller: userEmail }] });
-      res.status(200).json(bills);
+        const userEmail = req.params.userEmail;
+        const bills = await Bill.find({
+            $or: [{ receiver: userEmail }, { biller: userEmail }]
+        });
+        res.status(200).json(bills);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ error: 'Failed to fetch bills' });
     }
-  };
+};
 exports.updateBillPaidStatus = async (req, res) => {
     const { billId } = req.params;
     const { paid, paymentRefNumber } = req.body; // Ensure paymentRefNumber is correctly extracted from the request body

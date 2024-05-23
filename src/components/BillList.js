@@ -26,7 +26,7 @@ const BillList = () => {
 
     const fetchBills = async () => {
         try {
-            const response = await fetch('/bills');
+            const response = await fetch(`/bills/user/${encodeURIComponent(loggedInUserEmail)}`);
             if (response.ok) {
                 const data = await response.json();
                 setBills(data);
@@ -37,6 +37,7 @@ const BillList = () => {
             console.error('Error fetching bills:', error);
         }
     };
+    
 
     const fetchUserType = async () => {
         try {
