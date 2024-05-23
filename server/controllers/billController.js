@@ -50,15 +50,19 @@ exports.createAnnouncement = async (req, res) => {
 };
 
 // Controller function to get all bills
+const Bill = require('../models/Bill');
+
 exports.getAllBills = async (req, res) => {
-    try {
-        const bills = await Bill.find();
-        res.json(bills);
-    } catch (error) {
-        console.error('Error fetching bills:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+  try {
+    const { userEmail } = req.params;
+    const bills = await Bill.find({ $or: [{ receiver: userEmail }, { biller: userEmail }] });
+    res.status(200).json(bills);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
+
 
 exports.updateBillPaidStatus = async (req, res) => {
     const { billId } = req.params;
