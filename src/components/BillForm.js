@@ -11,7 +11,10 @@ const BillForm = () => {
         receiver: '',
         biller: '',
         paymentRefNumber: '',
-        category: '' // Include category in the initial state
+        category: '', // Include category in the initial state
+        paymentProof: null, // Initialize paymentProof as null
+        datePaid: null, // Initialize datePaid as null
+        modeOfPayment: null
     });
 
     const handleChange = (e) => {
@@ -31,7 +34,6 @@ const BillForm = () => {
             if (response.ok) {
                 toast.success('Bill created successfully!'); // Display success notification
                 navigate('/bills');
-                
             } else {
                 toast.error('Failed to create bill!'); // Display error notification
             }
@@ -44,12 +46,12 @@ const BillForm = () => {
         <div className="bill-form-container">
             <h2>Create Bill</h2>
             <form onSubmit={handleSubmit} className="bill-form">
-                <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} placeholder="Due Date" />
-                <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" />
-                <input type="text" name="receiver" value={formData.receiver} onChange={handleChange} placeholder="Receiver" />
-                <input type="text" name="biller" value={formData.biller} onChange={handleChange} placeholder="Biller" />
-                <input type="text" name="paymentRefNumber" value={formData.paymentRefNumber} onChange={handleChange} placeholder="Payment Reference Number" />
-                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category and month" /> {/* Add category input field */}
+                <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange} placeholder="Due Date" required />
+                <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" required />
+                <input type="text" name="receiver" value={formData.receiver} onChange={handleChange} placeholder="Receiver" required />
+                <input type="text" name="biller" value={formData.biller} onChange={handleChange} placeholder="Biller" required />
+                <input type="text" name="paymentRefNumber" value={formData.paymentRefNumber} onChange={handleChange} placeholder="Payment Reference Number" required />
+                <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category and month" required /> {/* Add category input field */}
                 <button type="submit">Create Bill</button>
             </form>
         </div>

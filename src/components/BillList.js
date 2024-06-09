@@ -7,9 +7,13 @@ import './BillList.css';
 const BillList = () => {
     const [bills, setBills] = useState([]);
     const [userType, setUserType] = useState('');
-    const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
     const [paymentRefNumbers, setPaymentRefNumbers] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [filterOptions, setFilterOptions] = useState([]);
+    const [selectedFilter, setSelectedFilter] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
 
     useEffect(() => {
         checkLoginStatus();
@@ -17,7 +21,13 @@ const BillList = () => {
             fetchBills();
             fetchUserType();
         }
-    }, []);
+    }, [currentPage, selectedFilter]);
+
+    useEffect(() => {
+        if (userType) {
+            fetchFilterOptions();
+        }
+    }, [userType]);
 
     const checkLoginStatus = () => {
         const loggedIn = !!loggedInUserEmail;
@@ -26,7 +36,7 @@ const BillList = () => {
 
     const fetchBills = async () => {
         try {
-            const response = await fetch(`/bills/user/${encodeURIComponent(loggedInUserEmail)}`);
+            const response = await fetch(`/bills/user/${encodeURIComponent(loggedInUserEmail)}?filter=${encodeURIComponent(selectedFilter)}&page=${currentPage}&limit=${itemsPerPage}`);
             if (response.ok) {
                 const data = await response.json();
                 setBills(data);
@@ -37,7 +47,6 @@ const BillList = () => {
             console.error('Error fetching bills:', error);
         }
     };
-    
 
     const fetchUserType = async () => {
         try {
@@ -53,16 +62,27 @@ const BillList = () => {
         }
     };
 
+    const fetchFilterOptions = async () => {
+        try {
+            const response = await fetch('/bills/unique-receivers');
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Filter options:', data);
+                setFilterOptions(data);
+            } else {
+                throw new Error('Failed to fetch filter options');
+            }
+        } catch (error) {
+            console.error('Error fetching filter options:', error);
+        }
+    };
+    
+    
+
     const currentDate = new Date();
 
-    const unpaidOverdueBills = bills.filter((bill) => {
-        return !bill.paid && new Date(bill.dueDate) < currentDate;
-    });
-
-    const upcomingUnpaidBills = bills.filter((bill) => {
-        return !bill.paid && new Date(bill.dueDate) >= currentDate;
-    });
-
+    const unpaidOverdueBills = bills.filter((bill) => !bill.paid && new Date(bill.dueDate) < currentDate);
+    const upcomingUnpaidBills = bills.filter((bill) => !bill.paid && new Date(bill.dueDate) >= currentDate);
     const paidBills = bills.filter((bill) => bill.paid);
 
     const handleMarkAsPaid = async (billId) => {
@@ -98,7 +118,7 @@ const BillList = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ paymentRefNumber: paymentRefNumber })
+                body: JSON.stringify({ paymentRefNumber })
             });
 
             if (response.ok) {
@@ -145,18 +165,37 @@ const BillList = () => {
     );
 
     if (!isLoggedIn) {
-        return         <div className="login-message">
-        <h3>Please log in to view your bills.</h3>
-      </div>;
+        return (
+            <div className="login-message">
+                <h3>Please log in to view your bills.</h3>
+            </div>
+        );
     }
 
     return (
         <div className="bill-list-container">
             <ToastContainer />
             {userType === 'manager' && (
-                <Link to="/create-bill" className="create-bill-button">
-                    Create Bill
-                </Link>
+                <div className="filter-container">
+                    <label htmlFor="receiver-filter">Filter by Receiver:</label>
+                    <select
+    id="receiver-filter"
+    value={selectedFilter}
+    onChange={(e) => {
+        console.log('Selected filter:', e.target.value); // Log selected filter
+        setSelectedFilter(e.target.value); // Update selected filter state
+        setCurrentPage(1); // Reset to the first page when filter changes
+    }}
+>
+    <option value="">All</option>
+    {filterOptions.map((option, index) => (
+        <option key={index} value={option}>
+            {option}
+        </option>
+    ))}
+</select>
+
+                </div>
             )}
             <h2>Unpaid and Overdue Bills</h2>
             <table className="bill-table">
@@ -207,18 +246,25 @@ const BillList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {paidBills.map((bill) => (
-                        <tr key={bill._id}>
-                            <td>{bill.category}</td>
-                            <td>{bill.amount}</td>
-                            <td>{bill.dueDate}</td>
-                            <td>{bill.receiver}</td>
-                            <td>{bill.biller}</td>
-                            <td>{bill.paymentRefNumber}</td>
-                        </tr>
-                    ))}
+                    {paidBills.map(renderBillRow)}
                 </tbody>
             </table>
+
+            <div className="pagination">
+                <button
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    Previous
+                </button>
+                <span>Page {currentPage}</span>
+                <button
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                    disabled={bills.length < itemsPerPage}
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 };

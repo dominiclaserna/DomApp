@@ -22,40 +22,44 @@ exports.createMessage = async (req, res) => {
     res.status(500).json({ error: 'Failed to create message' });
   }
 };
-exports.createBill = async (req, res) => {
+
+
+
+// Get messages for a user with optional receiver filter
+exports.getMessagesForUser = async (req, res) => {
   try {
-      console.log('Request Payload:', req.body); // Log the request payload
-      const { dueDate, amount, receiver, biller, paymentRefNumber, category } = req.body;
-      const bill = new Bill({ dueDate, amount, receiver, biller, paymentRefNumber, category });
-      console.log('Bill before saving:', bill); // Log the bill object before saving
-      await bill.save();
+    const email = req.params.email;
+    const { filter } = req.query;
 
-      // Create a notification for the new bill
-      const newNotification = await Notification.create({
-          notificationOwner: receiver, // Assuming the receiver is the one who should see the notification
-          about: 'unpaid/overdue bill',
-          seen: false // Initially set as unseen
-      });
-      console.log('Notification created:', newNotification); // Log the newly created notification
+    let filterQuery = {}; // Initialize an empty filter query object
 
-      res.status(201).json({ message: 'Bill created successfully', bill });
+    // If a filter is provided, include it in the filter query
+    if (filter) {
+      filterQuery = { receiver: filter };
+    }
+
+    // Query messages based on the user email and the filter query
+    const messages = await Message.find({
+      $and: [
+        { $or: [{ sender: email }, { receiver: email }] }, // Query by user email
+        filterQuery // Apply additional filter if provided
+      ]
+    });
+
+    res.status(200).json(messages);
   } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ error: 'Failed to fetch messages' });
   }
 };
 
 
 
-// Get messages for a user
-exports.getMessagesForUser = async (req, res) => {
-  try {
-    const email = req.params.email;
-    const messages = await Message.find({
-      $or: [{ sender: email }, { receiver: email }]
-    });
-    res.status(200).json(messages);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch messages' });
-  }
+exports.getUniqueReceivers = async (req, res) => {
+    try {
+        const uniqueReceivers = await Message.distinct('receiver');
+        res.status(200).json(uniqueReceivers);
+    } catch (error) {
+        console.error('Error fetching unique receivers:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };

@@ -8,7 +8,10 @@ exports.createBill = async (req, res) => {
     try {
         console.log('Request Payload:', req.body); // Log the request payload
         const { dueDate, amount, receiver, biller, paymentRefNumber, category } = req.body;
-        const bill = new Bill({ dueDate, amount, receiver, biller, paymentRefNumber, category });
+        modeOfPayment=null;
+        paymentProof=null;
+        datePaid=null;
+        const bill = new Bill({ dueDate, amount, receiver, biller, paymentRefNumber, category,modeOfPayment,paymentProof,datePaid});
         console.log('Bill before saving:', bill); // Log the bill object before saving
         await bill.save();
 
@@ -62,15 +65,31 @@ exports.getAllBills = async (req, res) => {
 
 exports.getBillsForUser = async (req, res) => {
     try {
-        const userEmail = req.params.userEmail;
+        const { userEmail } = req.params;
+        const { filter } = req.query;
+
+        let filterQuery = {}; // Initialize an empty filter query object
+
+        // If a filter is provided, include it in the filter query
+        if (filter) {
+            filterQuery = { receiver: filter };
+        }
+
+        // Query bills based on the user email and the filter query
         const bills = await Bill.find({
-            $or: [{ receiver: userEmail }, { biller: userEmail }]
+            $and: [
+                { $or: [{ receiver: userEmail }, { biller: userEmail }] }, // Query by user email
+                filterQuery // Apply additional filter if provided
+            ]
         });
+
         res.status(200).json(bills);
     } catch (error) {
+        console.error('Error fetching bills:', error);
         res.status(500).json({ error: 'Failed to fetch bills' });
     }
 };
+
 
 exports.updateBillPaidStatus = async (req, res) => {
     const { billId } = req.params;
@@ -95,6 +114,16 @@ exports.updateBillPaidStatus = async (req, res) => {
 
     } catch (error) {
         console.error('Error updating bill and creating notification:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+exports.getUniqueReceivers = async (req, res) => {
+    try {
+        const uniqueReceivers = await Bill.distinct('receiver');
+        console.log('Unique receivers:', uniqueReceivers); // Log the unique receivers data
+        res.status(200).json(uniqueReceivers);
+    } catch (error) {
+        console.error('Error fetching unique receivers:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };

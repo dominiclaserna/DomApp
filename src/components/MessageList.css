@@ -1,48 +1,61 @@
-.message-list-container {
+.filter-dropdown {
+  margin-bottom: 20px;
+}
+
+.pagination {
+  margin-top: 20px;
   display: flex;
-  flex-direction: column;
-  height: calc(100vh - 100px);  /* Adjust the height based on your layout */
-  overflow-y: auto; /* Enable vertical scrolling */
+  justify-content: center;
+  align-items: center;
 }
 
-.message-list-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 20px; /* Add padding to create space between messages and form */
-}
-
-.message-list {
-  flex: 1;
-  overflow-y: auto; /* Enable vertical scrolling */
-  padding: 10px;
-}
-
-.message {
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
   border: 1px solid #ccc;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-.message-left {
-  background-color: #64066d;
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bill-list-container {
+  padding: 20px;
+}
+
+.bill-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.bill-table th, .bill-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.bill-table th {
+  background-color: #f2f2f2;
+}
+
+.bill-table td button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff;
   color: white;
-  text-align: left;
+  cursor: pointer;
 }
 
-.message-right {
-  background-color: #64066d;
-  color: white;
-  text-align: right;
-  align-self: flex-end;
+.bill-table td button:hover {
+  background-color: #0056b3;
 }
 
-.message-form-container {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-top: 1px solid #ddd;
-  margin-top: 10px; /* Adjust margin to bring the form closer to the messages */
+.bill-table input[type="text"] {
+  padding: 5px;
+  width: 100px;
 }
 
 .login-message {
@@ -51,4 +64,30 @@
   align-items: center;
   height: 50vh;
   text-align: center;
+}
+
+.bill-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  margin-right: 10px;
+}
+
+.filter-container select {
+  padding: 5px;
+}
+.message {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  background-color: #64066d; /* Purple background color */
+  color: white; /* White text color */
 }
