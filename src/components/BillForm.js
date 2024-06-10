@@ -50,7 +50,7 @@ const BillForm = () => {
                 <input type="number" name="amount" value={formData.amount} onChange={handleChange} placeholder="Amount" required />
                 <input type="text" name="receiver" value={formData.receiver} onChange={handleChange} placeholder="Receiver" required />
                 <input type="text" name="biller" value={formData.biller} onChange={handleChange} placeholder="Biller" required />
-                <input type="text" name="paymentRefNumber" value={formData.paymentRefNumber} onChange={handleChange} placeholder="Payment Reference Number" required />
+               
                 <input type="text" name="category" value={formData.category} onChange={handleChange} placeholder="Category and month" required /> {/* Add category input field */}
                 <button type="submit">Create Bill</button>
             </form>

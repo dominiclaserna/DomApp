@@ -1,3 +1,4 @@
+/* Styles for the bill list container */
 .bill-list-container {
     padding: 20px;
     background-color: #64066d;
@@ -6,27 +7,33 @@
     border: 2px solid #fff; /* Added white border */
 }
 
+/* Styles for the bill table */
 .bill-table {
     width: 100%;
     border-collapse: collapse;
     background-color: #64066d; /* Changed table background color */
 }
 
-.bill-table th, .bill-table td {
+.bill-table th,
+.bill-table td {
     padding: 10px;
+    
     border: 1px solid #ccc;
     text-align: center;
 }
 
 .bill-table th {
-    background-color: #64066d;
+    color: black;
 }
+
 
 .bill-table tr:nth-child(even) {
     background-color: #64066d;
 }
 
-.bill-table td button, .bill-table td input {
+/* Styles for the payment input and button */
+.bill-table td input,
+.bill-table td button {
     margin: 5px;
     padding: 8px 12px;
     font-size: 14px;
@@ -35,104 +42,72 @@
     cursor: pointer;
 }
 
-.bill-table td button {
-    background-color: #007bff;
-    color: #fff;
-}
-
 /* Styles for the Create Bill button */
 .create-bill-button {
-    display: inline-block;
-    margin-top: 20px;
+    position: fixed; /* Change position to fixed */
+    top: 100px; /* Adjust top position */
+    left: 140px; /* Adjust left position */
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
     font-size: 16px;
-    border: none;
+    border: 2px solid #007bff; /* Remove white border */
     border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.create-bill-button1 {
+    position: fixed; /* Position the button */
+    top: 82px; /* Adjust top position */
+    left: 30px; /* Adjust left position */
+    padding: 1px 3px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold; /* Set font weight to bold */
+    border: 2px solid #007bff; /* Remove white border */
+    border-radius: 2px;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
+
 .create-bill-button:hover {
+    background-color: #0056b3;
+}
+
+/* Adjust the position of the filter container */
+.filter-container {
+    margin-top: 50px; /* Adjust top margin */
+}
+
+/* Styles for the Mark as Paid button */
+.bill-table td button.mark-paid-button {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.bill-table td button.mark-paid-button:hover {
     background-color: #218838;
 }
 
-/* BillSummary section with white border */
-.bill-summary-container {
-    padding: 20px;
-    background-color: #64066d;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    color: #fff; /* Ensure text color is white for better readability */
-    border: 2px solid #fff; /* Added white border */
-}
-
-.summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #64066d; /* Background color for the summary table */
-    margin-top: 20px; /* Add some margin on top */
-}
-
-.summary-table th, .summary-table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
-    color: #fff; /* Ensure text color is white for better readability */
-}
-
-.summary-table th {
-    background-color: #007bff;
-}
-
-.summary-table tr:nth-child(even) {
-    background-color: #5a055e;
-}
-
-.summary-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* Styles for the summary counts */
-.summary-counts {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-
-.summary-counts div {
-    background-color: #007bff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-align: center;
-    flex: 1;
-    margin: 0 10px;
-    color: #fff; /* Ensure text color is white for better readability */
-    font-weight: bold;
-}
-
-/* Media query for responsiveness */
-@media (max-width: 600px) {
-    .summary-counts {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .summary-counts div {
-        margin: 10px 0;
-        width: 100%;
-    }
-}
+/* Styles for the login message */
 .login-message {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50vh;
     text-align: center;
-  }
+}

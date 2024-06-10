@@ -5,7 +5,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color: #fff; /* Ensure text color is white for better readability */
 }
-
+.filter-container{
+    position: absolute; /* Position the button */
+    top: 15px; /* Adjust top position */
+    left: 140px; /* Adjust left position */
+}
 .summary-table {
     width: 100%;
     border-collapse: collapse;
