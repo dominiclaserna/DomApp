@@ -64,17 +64,21 @@ exports.getAllBills = async (req, res) => {
 exports.getBillsForUser = async (req, res) => {
     try {
         const { userEmail } = req.params;
-        const { filter } = req.query;
+        const { filter, page, limit } = req.query;
 
         let filterQuery = {};
         if (filter) {
             filterQuery.receiver = filter;
         }
 
+        const pageNumber = parseInt(page) || 1;
+        const itemsPerPage = parseInt(limit) || 10;
+        const skip = (pageNumber - 1) * itemsPerPage;
+
         const bills = await Bill.find({
             $or: [{ receiver: userEmail }, { biller: userEmail }],
             ...filterQuery
-        });
+        }).skip(skip).limit(itemsPerPage);
 
         res.status(200).json(bills);
     } catch (error) {
@@ -82,6 +86,7 @@ exports.getBillsForUser = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch bills' });
     }
 };
+
 
 // Controller function to update bill payment status
 exports.updateBillPaidStatus = async (req, res) => {
