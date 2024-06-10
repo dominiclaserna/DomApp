@@ -44,7 +44,25 @@ const MessageList = () => {
       console.error('Error fetching messages:', error);
     }
   };
-
+  const handleSendMessage = async (messageData) => {
+    try {
+      const response = await fetch('/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messageData),
+      });
+      if (response.ok) {
+        // Message sent successfully, perhaps update the UI or show a success message
+        console.log('Message sent successfully!');
+      } else {
+        console.error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
   const fetchUserType = async () => {
     try {
       const response = await fetch(`/user-details/${encodeURIComponent(loggedInUserEmail)}`);
@@ -136,7 +154,7 @@ const MessageList = () => {
         </button>
       </div>
       <div className="message-form-container"> {/* Add MessageForm component here */}
-        <MessageForm />
+              <MessageForm onMessageSubmit={handleSendMessage} />
       </div>
     </div>
   );

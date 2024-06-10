@@ -10,12 +10,17 @@ const MessageForm = ({ onMessageSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onMessageSubmit({ sender, receiver, subject, body });
-    setReceiver('');
-    setSubject('');
-    setBody('');
-    toast.success('Message sent successfully!'); // Display success notification
+    if (typeof onMessageSubmit === 'function') {
+      onMessageSubmit({ sender, receiver, subject, body });
+      setReceiver('');
+      setSubject('');
+      setBody('');
+      toast.success('Message sent successfully!'); // Display success notification
+    } else {
+      console.error("onMessageSubmit is not a function");
+    }
   };
+  
 
   return (
     <form className="message-form" onSubmit={handleSubmit}>
