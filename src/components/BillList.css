@@ -61,20 +61,20 @@
 }
 
 .create-bill-button1 {
-    position: fixed; /* Position the button */
-    top: 82px; /* Adjust top position */
-    left: 30px; /* Adjust left position */
-    padding: 1px 3px;
+    position: fixed; /* Change position to fixed */
+    top: 100px; /* Adjust top position */
+    left: 140px; /* Adjust left position */
+    padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
-    font-size: 20px;
-    font-weight: bold; /* Set font weight to bold */
+    font-size: 16px;
     border: 2px solid #007bff; /* Remove white border */
-    border-radius: 2px;
+    border-radius: 5px;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    z-index: 1000; /* Ensure it's above other content */
 }
 
 

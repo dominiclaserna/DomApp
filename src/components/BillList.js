@@ -107,10 +107,34 @@ const BillList = () => {
             toast.error('Error marking bill as paid');
         }
     };
+    const handleMarkAsUnpaid = async (billId) => {
+        try {
+            const response = await fetch(`/bills/${billId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ paid: false })
+            });
+    
+            if (response.ok) {
+                console.log('Bill marked as unpaid successfully');
+                toast.success('Bill marked as unpaid successfully');
+                fetchBills();
+            } else {
+                console.error('Failed to mark bill as unpaid');
+                toast.error('Failed to mark bill as unpaid');
+            }
+        } catch (error) {
+            console.error('Error marking bill as unpaid:', error);
+            toast.error('Error marking bill as unpaid');
+        }
+    };
+    
 
     const handlePayBill = async (billId) => {
         const { paymentRefNumber, modeOfPayment } = paymentDetails[billId] || {};
-        console.log('Payment Details:', { paymentRefNumber,  modeOfPayment });
+        console.log('Payment Details:', { paymentRefNumber, modeOfPayment });
         try {
             const response = await fetch(`/bills/${billId}`, {
                 method: 'PATCH',
@@ -143,7 +167,6 @@ const BillList = () => {
             }
         }));
     };
-    
 
     const renderBillRow = (bill) => (
         <tr key={bill._id}>
@@ -152,9 +175,7 @@ const BillList = () => {
             <td>{bill.dueDate}</td>
             <td>{bill.receiver}</td>
             <td>{bill.biller}</td>
-            <td>
-                {bill.datePaid || 'N/A'} {/* Display datePaid if available, otherwise show 'N/A' */}
-            </td>
+            <td>{bill.datePaid || 'N/A'}</td>
             <td>
                 {userType === 'manager' ? (
                     <>
@@ -172,26 +193,44 @@ const BillList = () => {
                     </>
                 ) : (
                     <>
-                        {bill.paymentRefNumber || 'N/A'}<br />
-                        {bill.modeOfPayment || 'N/A'}<br />
-                        {bill.paid && 'Paid'}
+                        <input
+                            type="text"
+                            placeholder="Payment Reference Number"
+                            value={paymentDetails[bill._id]?.paymentRefNumber || ''}
+                            onChange={(e) => handlePaymentDetailChange(bill._id, 'paymentRefNumber', e.target.value)}
+                        /><br />
+                        <select
+                            value={paymentDetails[bill._id]?.modeOfPayment || ''}
+                            onChange={(e) => handlePaymentDetailChange(bill._id, 'modeOfPayment', e.target.value)}
+                        >
+                            <option value="">Select Mode of Payment</option>
+                            <option value="GCash">GCash</option>
+                            <option value="PayMaya">PayMaya</option>
+                        </select><br />
+                        <button onClick={() => handlePayBill(bill._id)}>Submit Payment</button>
                     </>
                 )}
             </td>
             {userType === 'manager' && <td>{bill.paid ? 'Paid' : <button onClick={() => handleMarkAsPaid(bill._id)}>Mark as Paid</button>}</td>}
+            {userType === 'manager' && (
+    <td>
+        {bill.paid ? (
+            <button onClick={() => handleMarkAsUnpaid(bill._id)}>Cancel Payment</button>
+        ) : (
+            'Unpaid'
+        )}
+    </td>
+)}
+
         </tr>
     );
-    
-    
-    
 
     const handleCreateBillClick = () => {
         navigate('/create-bill'); // Navigate to the create bill route
     };
 
     if (!isLoggedIn) {
-        return
-        (
+        return (
             <div className="login-message">
                 <h3>Please log in to view your bills.</h3>
             </div>
@@ -202,37 +241,46 @@ const BillList = () => {
         <div className="bill-list-container">
             <ToastContainer />
             {userType === 'manager' && (
-                <div className="create-bill-button">
-                    <button className="mark-paid-button" onClick={handleCreateBillClick}>Create Bill</button>
+                <div className="fixed-create-bill-button">
+                    <button className="create-bill-button" onClick={handleCreateBillClick}>Create Bill</button>
                 </div>
             )}
             {userType === 'tenant' && (
-                <div className="create-bill-button1">
-                    <p>Pay to: 
-                        <span>[GCash: 09157015668] </span> 
-                        <span>[Paymaya: 09157015668]</span>
-                    </p>
+                <div className="fixed-payment-info">
+<p>
+    <strong>Pay to:</strong>{' '}
+    <span>
+        <strong>[GCash: 09157015668] </strong>
+    </span>{' '}
+    <span>
+        <strong>[Paymaya: 09157015668]</strong>
+    </span>
+</p>
+
                 </div>
             )}
-            <div className="filter-container">
-                <label htmlFor="receiver-filter">Filter by Receiver:</label>
-                <select
-                    id="receiver-filter"
-                    value={selectedFilter}
-                    onChange={(e) => {
-                        console.log('Selected filter:', e.target.value); // Log selected filter
-                        setSelectedFilter(e.target.value); // Update selected filter state
-                        setCurrentPage(1); // Reset to the first page when filter changes
-                    }}
-                >
-                    <option value="">All</option>
-                    {filterOptions.map((option, index) => (
-                        <option key={index} value={option}>
-                            {option}
-                        </option>
-                    ))}
-                </select>
-            </div>
+            
+            {userType === 'manager' && (
+                <div className="filter-container">
+                    <label htmlFor="receiver-filter">Filter by Receiver:</label>
+                    <select
+                        id="receiver-filter"
+                        value={selectedFilter}
+                        onChange={(e) => {
+                            console.log('Selected filter:', e.target.value);
+                            setSelectedFilter(e.target.value);
+                            setCurrentPage(1);
+                        }}
+                    >
+                        <option value="">All</option>
+                        {filterOptions.map((option, index) => (
+                            <option key={index} value={option}>
+                                {option}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            )}
             <h2>Unpaid and Overdue Bills</h2>
             <table className="bill-table">
                 <thead>
@@ -245,13 +293,14 @@ const BillList = () => {
                         <th>Date Paid</th>
                         <th>Payment Details</th>
                         {userType === 'manager' && <th>Action</th>}
+                        {userType === 'manager' && <th>Status</th>}
                     </tr>
                 </thead>
                 <tbody>
                     {unpaidOverdueBills.map(renderBillRow)}
                 </tbody>
             </table>
-    
+
             <h2>Upcoming Unpaid Bills</h2>
             <table className="bill-table">
                 <thead>
@@ -264,13 +313,14 @@ const BillList = () => {
                         <th>Date Paid</th>
                         <th>Payment Details</th>
                         {userType === 'manager' && <th>Action</th>}
+                        {userType === 'manager' && <th>Status</th>}
                     </tr>
                 </thead>
                 <tbody>
                     {upcomingUnpaidBills.map(renderBillRow)}
                 </tbody>
             </table>
-    
+
             <h2>Paid Bills</h2>
             <table className="bill-table">
                 <thead>
@@ -283,13 +333,14 @@ const BillList = () => {
                         <th>Date Paid</th>
                         <th>Payment Details</th>
                         {userType === 'manager' && <th>Action</th>}
+                        {userType === 'manager' && <th>Status</th>}
                     </tr>
                 </thead>
                 <tbody>
                     {paidBills.map(renderBillRow)}
                 </tbody>
             </table>
-    
+
             <div className="pagination">
                 <button
                     onClick={() => setCurrentPage(currentPage - 1)}
@@ -307,8 +358,6 @@ const BillList = () => {
             </div>
         </div>
     );
-    
-    
 };
 
 export default BillList;
