@@ -180,16 +180,7 @@ const BillList = () => {
                 {userType === 'manager' ? (
                     <>
                         {bill.paymentRefNumber || 'N/A'}<br />
-                        {bill.modeOfPayment ? bill.modeOfPayment : (
-                            <select
-                                value={paymentDetails[bill._id]?.modeOfPayment || ''}
-                                onChange={(e) => handlePaymentDetailChange(bill._id, 'modeOfPayment', e.target.value)}
-                            >
-                                <option value="">Select Mode of Payment</option>
-                                <option value="GCash">GCash</option>
-                                <option value="PayMaya">PayMaya</option>
-                            </select>
-                        )}
+                        {bill.modeOfPayment || 'N/A'}<br/>
                     </>
                 ) : (
                     <>
