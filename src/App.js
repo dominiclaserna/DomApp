@@ -8,12 +8,14 @@ import BillForm from './components/BillForm';
 import LoginForm from './components/LoginForm';
 import UserDetails from './components/UserDetails';
 import BillList from './components/BillList';
+import ReceiptList from './components/ReceiptList'; // Import the ReceiptList component
 import MessageList from './components/MessageList';
 import Navbar from './components/Navbar';
 import AnnouncementsForm from './components/AnnouncementsForm'; 
 import AnnouncementsList from './components/AnnouncementLists.js';
 import NotificationBell from './components/NotificationBell'; 
 import BillSummary from './components/BillSummary';
+
 function App() {
   const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
 
@@ -35,6 +37,7 @@ function App() {
             <Route path="/create-bill" element={<BillForm />} />
             <Route path="/user-details" element={<UserDetails />} />
             <Route path="/bills" element={<BillList />} />
+            <Route path="/receipts" element={<ReceiptList />} /> {/* Add the route for ReceiptList */}
             <Route path="/messages" element={<MessageList />} />
             <Route path="/announcements" element={<AnnouncementsList />} />
             <Route path="/summary" element={<BillSummary />} />
@@ -75,7 +78,5 @@ function LoginPage() {
     </>
   );
 }
-
-
 
 export default App;

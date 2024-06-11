@@ -238,15 +238,17 @@ const BillList = () => {
             )}
             {userType === 'tenant' && (
                 <div className="fixed-payment-info">
-<p>
-    <strong>Pay to:</strong>{' '}
-    <span>
-        <strong>[GCash: 09157015668] </strong>
-    </span>{' '}
-    <span>
-        <strong>[Paymaya: 09157015668]</strong>
-    </span>
-</p>
+<div class="payment-info">
+    <p>
+        <strong>Pay to:</strong>{' '}
+        <span>
+            <strong>[GCash: 09157015668] </strong>
+        </span>{' '}
+        <span>
+            <strong>[Paymaya: 09157015668]</strong>
+        </span>
+    </p>
+</div>
 
                 </div>
             )}

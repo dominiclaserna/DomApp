@@ -86,7 +86,14 @@
 .filter-container {
     margin-top: 50px; /* Adjust top margin */
 }
-
+.payment-info {
+    position: fixed;
+    bottom: 20px; /* Adjust this value as needed */
+    left: 20px; /* Adjust this value as needed */
+    background-color: black;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
 /* Styles for the Mark as Paid button */
 .bill-table td button.mark-paid-button {
     padding: 8px 12px;

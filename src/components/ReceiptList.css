@@ -1,0 +1,65 @@
+/* Styles for the receipt list container */
+.receipt-list-container {
+    padding: 20px;
+    background-color: #64066d;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #fff; /* Added white border */
+}
+
+/* Styles for the receipt table */
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #64066d; /* Changed table background color */
+}
+
+.receipt-table th,
+.receipt-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    color: white; /* Changed text color to white */
+}
+
+.receipt-table tr:nth-child(even) {
+    background-color: #64066d;
+}
+
+/* Styles for the payment input and button */
+.receipt-table td input,
+.receipt-table td button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+/* Styles for the Create Receipt button */
+.create-receipt-button {
+    position: fixed; /* Change position to fixed */
+    top: 100px; /* Adjust top position */
+    left: 140px; /* Adjust left position */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border: 2px solid #007bff; /* Remove white border */
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.create-receipt-button:hover {
+    background-color: #0056b3;
+}
+
+/* Adjust the position of the filter container */
+.filter-container {
+    margin-top: 50px; /* Adjust top margin */
+}

@@ -37,6 +37,9 @@ const Navbar = ({ handleLogout }) => {
             <NavLink to="/bills" activeClassName="active" className="nav-link">View Bills</NavLink>
           </li>
           <li>
+            <NavLink to="/receipts" activeClassName="active" className="nav-link">Receipts</NavLink> {/* Add link to Receipts */}
+          </li>
+          <li>
             <NavLink to="/messages" activeClassName="active" className="nav-link">Messages</NavLink>
           </li>
           <li>
