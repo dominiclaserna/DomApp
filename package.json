@@ -2,7 +2,7 @@
   "name": "laserna",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://domapp-backend.onrender.com",
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@react-pdf/renderer": "^3.4.4",
     "@testing-library/jest-dom": "^5.17.0",

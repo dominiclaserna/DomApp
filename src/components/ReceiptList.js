@@ -39,7 +39,8 @@ const ReceiptList = () => {
             const response = await fetch(`/bills/user/${encodeURIComponent(loggedInUserEmail)}?filter=${encodeURIComponent(selectedFilter)}&page=${currentPage}&limit=${itemsPerPage}`);
             if (response.ok) {
                 const data = await response.json();
-                setReceipts(data);
+                const paidReceipts = data.filter(receipt => receipt.paid === true); // Filter only paid receipts
+                setReceipts(paidReceipts);
             } else {
                 console.error('Failed to fetch receipts');
             }
@@ -86,7 +87,7 @@ const ReceiptList = () => {
                 },
                 body: JSON.stringify({ paid: false })
             });
-    
+
             if (response.ok) {
                 console.log('Receipt marked as unpaid successfully');
                 toast.success('Receipt marked as unpaid successfully');

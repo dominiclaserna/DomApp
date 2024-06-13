@@ -12,7 +12,7 @@ const BillList = () => {
     const [filterOptions, setFilterOptions] = useState([]);
     const [selectedFilter, setSelectedFilter] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(5);
     const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
     const navigate = useNavigate(); // Initialize navigate function
 
@@ -107,6 +107,7 @@ const BillList = () => {
             toast.error('Error marking bill as paid');
         }
     };
+
     const handleMarkAsUnpaid = async (billId) => {
         try {
             const response = await fetch(`/bills/${billId}`, {
@@ -130,7 +131,6 @@ const BillList = () => {
             toast.error('Error marking bill as unpaid');
         }
     };
-    
 
     const handlePayBill = async (billId) => {
         const { paymentRefNumber, modeOfPayment } = paymentDetails[billId] || {};
@@ -204,15 +204,14 @@ const BillList = () => {
             </td>
             {userType === 'manager' && <td>{bill.paid ? 'Paid' : <button onClick={() => handleMarkAsPaid(bill._id)}>Mark as Paid</button>}</td>}
             {userType === 'manager' && (
-    <td>
-        {bill.paid ? (
-            <button onClick={() => handleMarkAsUnpaid(bill._id)}>Cancel Payment</button>
-        ) : (
-            'Unpaid'
-        )}
-    </td>
-)}
-
+                <td>
+                    {bill.paid ? (
+                        <button onClick={() => handleMarkAsUnpaid(bill._id)}>Cancel Payment</button>
+                    ) : (
+                        'Unpaid'
+                    )}
+                </td>
+            )}
         </tr>
     );
 
@@ -229,7 +228,7 @@ const BillList = () => {
     }
 
     return (
-        <div className="bill-list-container">
+        <div className="content-container">
             <ToastContainer />
             {userType === 'manager' && (
                 <div className="fixed-create-bill-button">
@@ -238,21 +237,19 @@ const BillList = () => {
             )}
             {userType === 'tenant' && (
                 <div className="fixed-payment-info">
-<div class="payment-info">
-    <p>
-        <strong>Pay to:</strong>{' '}
-        <span>
-            <strong>[GCash: 09157015668] </strong>
-        </span>{' '}
-        <span>
-            <strong>[Paymaya: 09157015668]</strong>
-        </span>
-    </p>
-</div>
-
+                    <div className="payment-info">
+                        <p>
+                            <strong>Pay to:</strong>{' '}
+                            <span>
+                                <strong>[GCash: 09157015668] </strong>
+                            </span>{' '}
+                            <span>
+                                <strong>[Paymaya: 09157015668]</strong>
+                            </span>
+                        </p>
+                    </div>
                 </div>
             )}
-            
             {userType === 'manager' && (
                 <div className="filter-container">
                     <label htmlFor="receiver-filter">Filter by Receiver:</label>

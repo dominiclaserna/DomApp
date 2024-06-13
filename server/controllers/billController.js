@@ -72,7 +72,7 @@ exports.getBillsForUser = async (req, res) => {
         }
 
         const pageNumber = parseInt(page) || 1;
-        const itemsPerPage = parseInt(limit) || 10;
+        const itemsPerPage = parseInt(limit) || 5;
         const skip = (pageNumber - 1) * itemsPerPage;
 
         const bills = await Bill.find({
